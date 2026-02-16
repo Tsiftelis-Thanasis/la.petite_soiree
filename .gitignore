@@ -4,3 +4,7 @@
 # OS files
 .DS_Store
 Thumbs.db
+
+# Uploaded images (optional - remove this if you want to commit uploaded images)
+images/uploads/*
+!images/uploads/.gitkeep

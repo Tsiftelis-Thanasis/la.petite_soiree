@@ -1,0 +1,67 @@
+backend:
+  name: git-gateway
+  branch: master # Branch to update (optional; defaults to master)
+
+# Uncomment below to enable local development mode
+local_backend: true
+
+media_folder: "images/uploads" # Media files will be stored in the repo under images/uploads
+public_folder: "/images/uploads" # The src attribute for uploaded media will begin with /images/uploads
+
+collections:
+  # Site Settings Collection
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "content/settings.json"
+        fields:
+          - {label: "Site Title", name: "siteTitle", widget: "string", default: "La Petite Soirée"}
+          - {label: "Tagline", name: "tagline", widget: "string", default: "Curated Events & Intimate Celebrations"}
+          - {label: "About Text - Paragraph 1", name: "aboutText1", widget: "text"}
+          - {label: "About Text - Paragraph 2", name: "aboutText2", widget: "text"}
+          - {label: "Contact Heading", name: "contactHeading", widget: "string", default: "Get in Touch"}
+          - {label: "Contact Text - Line 1", name: "contactText1", widget: "string"}
+          - {label: "Contact Text - Line 2", name: "contactText2", widget: "string"}
+          - {label: "Instagram URL", name: "instagramUrl", widget: "string"}
+          - {label: "Email Address", name: "email", widget: "string"}
+
+  # Services Collection
+  - name: "services"
+    label: "Services"
+    folder: "content/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Icon", name: "icon", widget: "string", hint: "Enter an emoji or icon"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Order", name: "order", widget: "number", default: 0, hint: "Display order (lowest first)"}
+
+  # Gallery Collection
+  - name: "gallery"
+    label: "Gallery"
+    folder: "content/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Image", name: "image", widget: "image", required: false}
+      - {label: "Alt Text", name: "alt", widget: "string", required: false}
+      - {label: "Order", name: "order", widget: "number", default: 0}
+
+  # Blog/Portfolio Collection
+  - name: "blog"
+    label: "Blog & Portfolio"
+    folder: "content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Publish Date", name: "date", widget: "datetime"}
+      - {label: "Featured Image", name: "featuredImage", widget: "image", required: false}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Body", name: "body", widget: "markdown"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Published", name: "published", widget: "boolean", default: true}
