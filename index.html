@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Petite Soirée - Event Planning & Styling</title>
+    <title>La Petite Soirée - Kids' Events & Entertainment</title>
+    <link rel="icon" type="image/webp" href="images/sitelogo.webp">
+    <link rel="apple-touch-icon" href="images/sitelogo.webp">
+    <meta property="og:title" content="La Petite Soirée - Kids' Events & Entertainment">
+    <meta property="og:image" content="images/sitelogo.webp">
+    <meta property="og:type" content="website">
     <style>
         * {
             margin: 0;
@@ -77,8 +82,38 @@
             color: var(--rose-gold);
         }
 
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-left: 1.5rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--rose-gold);
+            color: var(--text-dark);
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--rose-gold);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: var(--warm-beige);
+        }
+
         /* Hero Section */
         .hero {
+            position: relative;
+            overflow: hidden;
             height: 100vh;
             background: linear-gradient(135deg, var(--deep-mauve) 0%, var(--rose-gold) 50%, var(--blush-pink) 100%);
             display: flex;
@@ -87,6 +122,60 @@
             text-align: center;
             color: var(--text-light);
             padding: 2rem;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Instagram 3×3 Grid Overlay */
+        .instagram-grid {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .ig-cell {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            pointer-events: auto;
+        }
+
+        .ig-cell.empty {
+            background-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .ig-cell a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ig-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.28;
+            transition: opacity 0.4s ease;
+            display: block;
+        }
+
+        .ig-cell:hover img {
+            opacity: 0.5;
+        }
+
+        .hero-logo {
+            width: min(380px, 80vw);
+            height: auto;
+            margin: 0 auto 1.5rem;
+            display: block;
+            filter: drop-shadow(0 4px 20px rgba(0,0,0,0.2));
         }
 
         .hero-content h1 {
@@ -205,25 +294,49 @@
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
         }
 
         .gallery-item {
             aspect-ratio: 1;
             background: linear-gradient(135deg, var(--soft-peach), var(--blush-pink));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            font-style: italic;
+            border-radius: 8px;
+            overflow: hidden;
             transition: transform 0.3s ease;
         }
 
-        .gallery-item:hover {
-            transform: scale(1.05);
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .gallery-item:hover { transform: scale(1.03); }
+
+        /* Expand Grid */
+        .exp-grid .gallery-item.exp-hidden { display: none; }
+        .exp-grid.expanded .gallery-item.exp-hidden { display: block; }
+        .exp-footer { text-align: center; margin-top: 1.5rem; }
+        .exp-btn {
+            padding: 0.7rem 2rem;
+            border: 2px solid var(--rose-gold);
+            background: transparent;
+            color: var(--rose-gold);
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .exp-btn:hover { background: var(--rose-gold); color: white; }
+
+        @media (max-width: 900px) {
+            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 560px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         /* Contact Section */
@@ -300,34 +413,56 @@
         <div class="container">
             <div class="logo">La Petite Soirée</div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#home"    data-en="Home"     data-el="Αρχική">Home</a></li>
+                <li><a href="#about"   data-en="About"    data-el="Σχετικά">About</a></li>
+                <li><a href="#services"data-en="Services" data-el="Υπηρεσίες">Services</a></li>
+                <li><a href="#gallery" data-en="Gallery"  data-el="Γκαλερί">Gallery</a></li>
+                <li><a href="#contact" data-en="Contact"  data-el="Επικοινωνία">Contact</a></li>
             </ul>
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+                <button class="lang-btn"        id="btn-el" onclick="setLang('el')">GR</button>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <!-- Instagram 3×3 background grid — populate via the instagramPosts array in the script below -->
+        <div class="instagram-grid" id="instagramGrid">
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+            <div class="ig-cell empty"></div>
+        </div>
         <div class="hero-content">
-            <h1>La Petite Soirée</h1>
-            <p>Curated Events & Intimate Celebrations</p>
-            <a href="#contact" class="cta-button">Plan Your Event</a>
+            <img src="images/sitelogo.webp" alt="La Petite Soirée" class="hero-logo">
+            <p data-en="Curated Events & Intimate Celebrations"
+               data-el="Οργανωμένες Εκδηλώσεις &amp; Προσωπικές Γιορτές">Curated Events &amp; Intimate Celebrations</p>
+            <a href="#contact" class="cta-button"
+               data-en="Plan Your Event"
+               data-el="Σχεδίασε την Εκδήλωσή σου">Plan Your Event</a>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="about">
-        <h2>About Us</h2>
+        <h2 data-en="About Us" data-el="Σχετικά με εμάς">About Us</h2>
         <div class="about-content">
-            <p>
+            <p data-en="La Petite Soirée specializes in creating unforgettable intimate celebrations and curated events. With a keen eye for detail and a passion for elegance, we transform your vision into reality. From sophisticated soirées to charming gatherings, every event is crafted with care and creativity."
+               data-el="Η La Petite Soirée ειδικεύεται στη δημιουργία αξέχαστων, οικείων εορτασμών και οργανωμένων εκδηλώσεων. Με οξυδερκές μάτι για τη λεπτομέρεια και πάθος για την κομψότητα, μετατρέπουμε το όραμά σας σε πραγματικότητα. Από εκλεπτυσμένες soirées έως γοητευτικές συγκεντρώσεις, κάθε εκδήλωση δημιουργείται με φροντίδα και δημιουργικότητα.">
                 La Petite Soirée specializes in creating unforgettable intimate celebrations and curated events.
                 With a keen eye for detail and a passion for elegance, we transform your vision into reality.
                 From sophisticated soirées to charming gatherings, every event is crafted with care and creativity.
             </p>
-            <p style="margin-top: 1.5rem;">
+            <p style="margin-top: 1.5rem;"
+               data-en="Let us bring the magic of French-inspired elegance to your next celebration."
+               data-el="Αφήστε μας να φέρουμε τη μαγεία της γαλλικής κομψότητας στην επόμενη γιορτή σας.">
                 Let us bring the magic of French-inspired elegance to your next celebration.
             </p>
         </div>
@@ -335,55 +470,196 @@
 
     <!-- Services Section -->
     <section id="services" class="services">
-        <h2>Our Services</h2>
+        <h2 data-en="Our Services" data-el="Οι Υπηρεσίες μας">Our Services</h2>
         <div class="services-grid">
             <div class="service-card">
                 <div class="service-icon">🎉</div>
-                <h3>Event Planning</h3>
-                <p>Complete event coordination from concept to execution, ensuring every detail reflects your unique vision.</p>
+                <h3 data-en="Event Planning" data-el="Οργάνωση Εκδηλώσεων">Event Planning</h3>
+                <p data-en="Complete event coordination from concept to execution, ensuring every detail reflects your unique vision."
+                   data-el="Πλήρης συντονισμός εκδηλώσεων από τη σύλληψη ως την υλοποίηση, διασφαλίζοντας ότι κάθε λεπτομέρεια αντικατοπτρίζει το μοναδικό σας όραμα.">Complete event coordination from concept to execution, ensuring every detail reflects your unique vision.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon">✨</div>
-                <h3>Styling & Design</h3>
-                <p>Curated aesthetic design and styling services to create visually stunning and cohesive event experiences.</p>
+                <h3 data-en="Styling &amp; Design" data-el="Στυλ &amp; Σχεδιασμός">Styling &amp; Design</h3>
+                <p data-en="Curated aesthetic design and styling services to create visually stunning and cohesive event experiences."
+                   data-el="Επιμελημένες υπηρεσίες αισθητικού σχεδιασμού και styling για τη δημιουργία οπτικά εντυπωσιακών και συνεκτικών εκδηλώσεων.">Curated aesthetic design and styling services to create visually stunning and cohesive event experiences.</p>
             </div>
             <div class="service-card">
                 <div class="service-icon">🌸</div>
-                <h3>Intimate Celebrations</h3>
-                <p>Specialized in creating memorable small gatherings, dinner parties, and personal milestone celebrations.</p>
+                <h3 data-en="Intimate Celebrations" data-el="Οικείες Γιορτές">Intimate Celebrations</h3>
+                <p data-en="Specialized in creating memorable small gatherings, dinner parties, and personal milestone celebrations."
+                   data-el="Ειδικευόμαστε στη δημιουργία αξέχαστων μικρών συγκεντρώσεων, πάρτι και εορτασμών προσωπικών στιγμών.">Specialized in creating memorable small gatherings, dinner parties, and personal milestone celebrations.</p>
             </div>
         </div>
     </section>
 
     <!-- Gallery Section -->
     <section id="gallery" class="gallery">
-        <h2>Our Work</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item">Elegant Décor</div>
-            <div class="gallery-item">Table Settings</div>
-            <div class="gallery-item">Floral Arrangements</div>
-            <div class="gallery-item">Lighting Design</div>
-            <div class="gallery-item">Event Styling</div>
-            <div class="gallery-item">Celebrations</div>
+        <h2 data-en="Our Work" data-el="Οι Δουλειές μας">Our Work</h2>
+        <div class="gallery-grid exp-grid" id="expGrid"></div>
+        <div class="exp-footer">
+            <button class="exp-btn" id="expBtn"
+                    data-en-collapsed="+ View All Photos" data-el-collapsed="+ Δες όλες τις φωτογραφίες"
+                    data-en-expanded="− Show Less"        data-el-expanded="− Λιγότερα">+ View All Photos</button>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="contact">
-        <h2>Get in Touch</h2>
+        <h2 data-en="Get in Touch" data-el="Επικοινωνήστε μαζί μας">Get in Touch</h2>
         <div class="contact-info">
-            <p>Ready to plan your perfect soirée?</p>
-            <p>Let's create something beautiful together.</p>
+            <p data-en="Ready to plan your perfect soirée?"
+               data-el="Έτοιμοι να σχεδιάσετε την τέλεια εκδήλωσή σας;">Ready to plan your perfect soirée?</p>
+            <p data-en="Let's create something beautiful together."
+               data-el="Ας δημιουργήσουμε κάτι όμορφο μαζί.">Let's create something beautiful together.</p>
+            <p style="margin-top: 1.5rem;"><a href="mailto:lapetitesoiree.info@gmail.com" style="color: inherit;">lapetitesoiree.info@gmail.com</a></p>
+            <p><a href="tel:+306955618218" style="color: inherit;">6955618218</a></p>
         </div>
         <div class="social-links">
-            <a href="https://www.instagram.com/la.petite_soiree/" target="_blank">Instagram</a>
-            <a href="mailto:hello@lapetitesoiree.com">Email</a>
+            <a href="https://www.instagram.com/la.petite_soiree/" target="_blank">Instagram: @la.petite_soiree</a>
+            <a href="https://www.facebook.com/search/top?q=La%20petite%20soir%C3%A9e" target="_blank">Facebook: La petite soirée</a>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 La Petite Soirée. All rights reserved.</p>
+        <p data-en="&copy; 2026 La Petite Soirée. All rights reserved."
+           data-el="&copy; 2026 La Petite Soirée. Με επιφύλαξη παντός δικαιώματος.">&copy; 2026 La Petite Soirée. All rights reserved.</p>
     </footer>
+
+    <script>
+        // ─── Instagram Feed ───────────────────────────────────────────────────────
+        //
+        // OPTION A — Instagram Graph API (automatic, always shows latest 9 posts)
+        // -------------------------------------------------------------------------
+        // 1. Make sure your Instagram is a Professional account (Business or Creator)
+        // 2. Go to https://developers.facebook.com → create an App → add "Instagram" product
+        // 3. In the App dashboard → Instagram → API setup → generate a long-lived token
+        //    (valid 60 days; refresh it before expiry via the same dashboard)
+        // 4. Paste the token in the variable below.
+        //
+        // OPTION B — Local images (manual, no token needed)
+        // -------------------------------------------------------------------------
+        // Download your 9 latest posts, put them in images/instagram/, then fill in
+        // the instagramPosts array at the bottom of this block.
+        //
+        const INSTAGRAM_ACCESS_TOKEN = ''; // ← paste your long-lived token here
+
+        (function loadIgGrid() {
+            const grid = document.getElementById('instagramGrid');
+            const igProfileUrl = 'https://www.instagram.com/la.petite_soiree/';
+            const cells = grid.querySelectorAll('.ig-cell');
+
+            function fillCell(cell, imageUrl, postUrl) {
+                cell.classList.remove('empty');
+                var a = document.createElement('a');
+                a.href = postUrl || igProfileUrl;
+                a.target = '_blank';
+                a.rel = 'noopener noreferrer';
+                var img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = 'La Petite Soirée on Instagram';
+                img.loading = 'lazy';
+                a.appendChild(img);
+                cell.appendChild(a);
+            }
+
+            function removeGridIfEmpty() {
+                if (grid.querySelector('.ig-cell:not(.empty)') === null) {
+                    grid.remove();
+                }
+            }
+
+            if (INSTAGRAM_ACCESS_TOKEN) {
+                // Option A: fetch live from Graph API
+                fetch('https://graph.instagram.com/me/media?fields=media_type,media_url,thumbnail_url,permalink&limit=9&access_token=' + INSTAGRAM_ACCESS_TOKEN)
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        if (!data.data) { removeGridIfEmpty(); return; }
+                        var idx = 0;
+                        data.data.forEach(function(post) {
+                            if (idx >= cells.length) return;
+                            var url = post.media_type === 'VIDEO' ? post.thumbnail_url : post.media_url;
+                            if (!url) return;
+                            fillCell(cells[idx], url, post.permalink);
+                            idx++;
+                        });
+                        removeGridIfEmpty();
+                    })
+                    .catch(function() { removeGridIfEmpty(); });
+                return;
+            }
+
+            // Option B: manually specified local images
+            // Replace '' with e.g. 'images/instagram/post1.jpg'
+            var instagramPosts = [
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+                { imageUrl: '', postUrl: '' },
+            ];
+            instagramPosts.forEach(function(post, i) {
+                if (!cells[i] || !post.imageUrl) return;
+                fillCell(cells[i], post.imageUrl, post.postUrl);
+            });
+            removeGridIfEmpty();
+        })();
+        // ─────────────────────────────────────────────────────────────────────────
+
+        let currentLang = 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.innerHTML = el.getAttribute('data-' + lang);
+            });
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-el').classList.toggle('active', lang === 'el');
+            document.documentElement.lang = lang === 'el' ? 'el' : 'en';
+            // update expand button to match current language & state
+            const btn = document.getElementById('expBtn');
+            if (btn) btn.textContent = btn.getAttribute('data-' + lang + (expanded ? '-expanded' : '-collapsed'));
+        }
+    </script>
+    <script>
+    const galleryImages = [
+        'images/optimized/1000049207.jpg',
+        'images/optimized/1000049211.jpg',
+        'images/optimized/1000049209.jpg',
+        'images/optimized/1000049215.jpg',
+        'images/optimized/1000049135.jpg',
+        'images/optimized/1000049139.jpg',
+        'images/optimized/1000049167.jpg',
+        'images/optimized/1000049126.jpg',
+        'images/optimized/1000049120.jpg',
+        'images/optimized/1000049210.jpg',
+        'images/optimized/1000048809.jpg',
+        'images/optimized/1000048810.jpg',
+        'images/optimized/1000048811.jpg',
+        'images/optimized/1000048812.jpg',
+        'images/optimized/1000048825.jpg',
+        'images/optimized/1000048826.jpg',
+        'images/optimized/1000048827.jpg',
+        'images/optimized/1000048828.jpg',
+    ];
+    const INIT_COUNT = 10; // 2 rows of 5
+    let expanded = false;
+
+    document.getElementById('expGrid').innerHTML = galleryImages
+        .map((src, i) => `<div class="gallery-item${i >= INIT_COUNT ? ' exp-hidden' : ''}"><img src="${src}" alt="Event" loading="lazy"></div>`)
+        .join('');
+
+    document.getElementById('expBtn').addEventListener('click', () => {
+        expanded = !expanded;
+        const btn = document.getElementById('expBtn');
+        document.getElementById('expGrid').classList.toggle('expanded', expanded);
+        btn.textContent = btn.getAttribute('data-' + currentLang + (expanded ? '-expanded' : '-collapsed'));
+    });
+    </script>
 </body>
 </html>
